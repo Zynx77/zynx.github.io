@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zynx</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #8b5cf6;
+            --secondary-color: #7c3aed;
+            --background-color: #f8fafc;
+            --card-background: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --toggle-bg: #e2e8f0;
+        }
+
+        [data-theme="dark"] {
+            --background-color: #1a1b1e;
+            --card-background: #2a2b2e;
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --toggle-bg: #4b5563;
+        }
+
+        [dir="ltr"] {
+            direction: ltr;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--background-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .profile {
+            background: var(--card-background);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            transition: background-color 0.3s;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 2;
+            display: flex;
+            gap: 10px;
+        }
+
+        .lang-toggle {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 2;
+        }
+
+        .toggle-btn {
+            background: var(--toggle-bg);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .toggle-btn i {
+            font-size: 16px;
+        }
+
+        .profile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 20px 20px 0 0;
+        }
+
+        .profile-content {
+            position: relative;
+            z-index: 1;
+            margin-top: 40px;
+        }
+
+        .profile-image {
+            width: 180px;
+            height: 180px;
+            border-radius: 90px;
+            margin: 0 auto;
+            display: block;
+            border: 6px solid var(--card-background);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            object-fit: cover;
+        }
+
+        .profile-name {
+            text-align: center;
+            font-size: 32px;
+            margin: 20px 0 10px;
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .profile-title {
+            text-align: center;
+            color: var(--primary-color);
+            font-size: 18px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .profile-bio {
+            text-align: center;
+            color: var(--text-secondary);
+            margin: 15px auto;
+            max-width: 600px;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--toggle-bg);
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .social-link:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .social-link i {
+            font-size: 20px;
+        }
+
+        .contact-info {
+            margin-top: 40px;
+            background: var(--background-color);
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px;
+            background: var(--card-background);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .contact-item i {
+            font-size: 24px;
+            color: var(--primary-color);
+        }
+
+        .contact-value {
+            font-size: 16px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .skills {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .skills-title {
+            font-size: 24px;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .skill-tag {
+            background: var(--primary-color);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .profile {
+                padding: 30px 20px;
+            }
+
+            .profile-name {
+                font-size: 28px;
+            }
+
+            .theme-toggle, .lang-toggle {
+                position: relative;
+                top: 0;
+                left: 0;
+                right: 0;
+                justify-content: center;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="profile">
+            <div class="theme-toggle">
+                <button class="toggle-btn" onclick="toggleTheme()" id="themeToggle">
+                    <i class="fas fa-sun"></i>
+                    <span class="theme-text">وضع النهار</span>
+                </button>
+            </div>
+            <div class="lang-toggle">
+                <button class="toggle-btn" onclick="toggleLanguage()" id="langToggle">
+                    <i class="fas fa-language"></i>
+                    <span class="lang-text">English</span>
+                </button>
+            </div>
+            <div class="profile-content">
+                <img src="img/jpeg(1)" alt="الصورة الشخصية" class="profile-image">
+                <h1 class="profile-name">Zynx</h1>
+                <div class="profile-title">مصمم مواقع ومبرمج</div>
+                <p class="profile-bio">
+                    مطور ومصمم مواقع متخصص في تطوير وتصميم المواقع الإلكترونية. أجمع بين مهارات البرمجة والتصميم لإنشاء مواقع مميزة وعصرية.
+                </p>
+
+                <div class="social-links">
+                    <a href="https://github.com/Zynx77" class="social-link">
+                        <i class="fab fa-github"></i>
+                        <span>غيت هب</span>
+                    </a>
+                    <a href="https://discord.gg/xRkMcdYf8d" class="social-link">
+                        <i class="fab fa-discord"></i>
+                        <span>ديسكورد</span>
+                    </a>
+                </div>
+
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div class="contact-value">zynx8120@gmail.com</div>
+                    </div>
+                </div>
+
+                <div class="skills">
+                    <h2 class="skills-title">المهارات</h2>
+                    <div class="skills-grid">
+                        <span class="skill-tag">HTML</span>
+                        <span class="skill-tag">CSS</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">تصميم المواقع</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // التحكم في الوضع الليلي/النهاري
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeToggle = document.getElementById('themeToggle');
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            
+            if (isDark) {
+                html.removeAttribute('data-theme');
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i><span class="theme-text">وضع النهار</span>';
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i><span class="theme-text">وضع الليل</span>';
+            }
+        }
+
+        // التحكم في تغيير اللغة
+        function toggleLanguage() {
+            const html = document.documentElement;
+            const langToggle = document.getElementById('langToggle');
+            const isEnglish = html.getAttribute('dir') === 'ltr';
+            
+            const content = {
+                ar: {
+                    name: 'اسمك الكامل',
+                    title: 'مصمم مواقع ومبرمج',
+                    bio: 'مطور ومصمم مواقع متخصص في تطوير وتصميم المواقع الإلكترونية. أجمع بين مهارات البرمجة والتصميم لإنشاء مواقع مميزة وعصرية.',
+                    github: 'غيت هب',
+                    discord: 'ديسكورد',
+                    skills: 'المهارات',
+                    theme: 'وضع النهار',
+                    lang: 'English'
+                },
+                en: {
+                    name: 'Your Name',
+                    title: 'Web Designer & Developer',
+                    bio: 'A web developer and designer specialized in website development and design. Combining programming and design skills to create unique and modern websites.',
+                    github: 'GitHub',
+                    discord: 'Discord',
+                    skills: 'Skills',
+                    theme: 'Light Mode',
+                    lang: 'عربي'
+                }
+            };
+
+            if (isEnglish) {
+                html.setAttribute('dir', 'rtl');
+                html.setAttribute('lang', 'ar');
+                updateContent(content.ar);
+            } else {
+                html.setAttribute('dir', 'ltr');
+                html.setAttribute('lang', 'en');
+                updateContent(content.en);
+            }
+        }
+
+        function updateContent(content) {
+            document.querySelector('.profile-name').textContent = content.name;
+            document.querySelector('.profile-title').textContent = content.title;
+            document.querySelector('.profile-bio').textContent = content.bio;
+            document.querySelector('.skills-title').textContent = content.skills;
+            document.querySelectorAll('.social-link span')[0].textContent = content.github;
+            document.querySelectorAll('.social-link span')[1].textContent = content.discord;
+            document.querySelector('.theme-text').textContent = content.theme;
+            document.querySelector('.lang-text').textContent = content.lang;
+        }
+    </script>
+</body>
+</html>
